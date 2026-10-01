@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerdas Belajar AI - Informatika Kelas IX SMPN 1 Paciran</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2pdf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(59, 130, 246, 0.9) 100%);
+        }
+        body {
+            background-image: linear-gradient(to bottom, rgba(248, 250, 252, 0.88), rgba(241, 245, 249, 0.94)), url('bg-ruang-kelas.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* STYLING CETAK */
+        @media print {
+            header, nav, .banner-visual, footer, button, select, #sectionSiswa, .no-print, #videoModal {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+            }
+            #sectionGuru, #areaCetakPDF {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #pdfHeader {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 min-h-screen">
+
+    <!-- Header Navigation Utama -->
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-50 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('siswa', 'sectionSiswa')">
+                <div class="w-10 h-10 bg-white rounded-full p-1 flex items-center justify-center shadow">
+                    <i class="fa-solid font-bold text-blue-800 text-xl">AI</i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Cerdas Belajar AI - Informatika</h1>
+                    <p class="text-xs text-blue-200">SMPN 1 Paciran • Bu Irma Rachmawati, S.Kom.</p>
+                </div>
+            </div>
+
+            <!-- Menu Link Navigasi Cepat -->
+            <nav class="flex items-center space-x-1 md:space-x-3 text-xs font-medium">
+                <button onclick="navigateTo('siswa', 'sectionDiagnosis')" class="hover:bg-white/20 px-3 py-1.5 rounded-lg transition flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Diagnosis AI
+                </button>
+                <button onclick="navigateTo('siswa', 'sectionModul')" class="hover:bg-white/20 px-3 py-1.5 rounded-lg transition flex items-center">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Modul Materi
+                </button>
+                <button onclick="navigateTo('siswa', 'sectionKuis')" class="hover:bg-white/20 px-3 py-1.5 rounded-lg transition flex items-center">
+                    <i class="fa-solid fa-list-check mr-1.5"></i> Kuis Evaluasi (10 Soal)
+                </button>
+                <button onclick="navigateTo('siswa', 'sectionTutor')" class="hover:bg-white/20 px-3 py-1.5 rounded-lg transition flex items-center">
+                    <i class="fa-solid fa-robot mr-1.5"></i> Tutor AI
+                </button>
+                <button onclick="navigateTo('guru', 'sectionGuru')" class="bg-yellow-400 text-blue-950 font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-300 transition flex items-center shadow">
+                    <i class="fa-solid fa-chart-line mr-1.5"></i> Area Guru
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Visual Banner Ilustrasi Ruang Kelas Digital -->
+    <div class="banner-visual bg-gradient-to-r from-blue-900/90 via-indigo-900/90 to-slate-900/90 backdrop-blur text-white py-6 shadow-inner border-b border-blue-700/50">
+        <div class="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-white/10 rounded-2xl border border-white/20 text-3xl text-yellow-400">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Ruang Kelas Digital Informatika Kelas IX</h2>
+                    <p class="text-xs text-blue-200">SMPN 1 Paciran - Berbasis Learning Styles & AI Recommendation Engine</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center">
+                    <i class="fa-solid fa-circle text-[8px] text-emerald-400 mr-2 animate-pulse"></i> Ruang Kelas Aktif
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 py-6 max-w-5xl">
+        
+        <!-- Banner Identitas Pengembang -->
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-slate-200/80 p-4 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-600 shadow-sm bg-slate-100 flex items-center justify-center">
+                        <img src="foto_profil.jpg" alt="Foto Profil IRMA RACHMAWATI" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold uppercase text-blue-600 tracking-wider">Guru Mata Pelajaran Informatika</span>
+                    <h2 class="text-lg font-bold text-slate-800">IRMA RACHMAWATI, S.Kom.</h2>
+                    <p class="text-xs text-slate-500">Kategori: SMP/MTs Kelas IX - Akselerasi Transformasi Pendidikan di Era AI</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div class="h-14 w-14 flex items-center justify-center bg-blue-50/50 rounded-xl p-1 border border-blue-100 shadow-sm">
+                    <img src="logo_smp_fix-removebg-preview.png" alt="Logo SMPN 1 Paciran" class="max-h-full max-w-full object-contain">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Switching (Mode Siswa & Mode Guru) -->
+        <div class="flex rounded-xl bg-slate-200/80 p-1 mb-6 backdrop-blur">
+            <button id="tabSiswa" onclick="switchTab('siswa')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-blue-700 shadow-sm">
+                <i class="fa-solid fa-graduation-cap mr-2"></i> Portal Siswa (Personalized Learning)
+            </button>
+            <button id="tabGuru" onclick="switchTab('guru')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <i class="fa-solid fa-chart-line mr-2"></i> Dashboard Monitoring & Penilaian Guru
+            </button>
+        </div>
+
+        <!-- ================= SECTION PORTAL SISWA ================= -->
+        <div id="sectionSiswa" class="space-y-6">
+
+            <!-- Pemilihan Semester & Bab Materi -->
+            <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center">
+                    <i class="fa-solid fa-layer-group text-blue-600 mr-2"></i> Pilih Kurikulum Informatika Kelas IX
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Pilih Semester:</label>
+                        <select id="pilihSemester" onchange="updateOpsiMateri()" class="w-full p-2.5 border rounded-xl bg-slate-50 font-medium focus:outline-none focus:border-blue-500">
+                            <option value="sem1">Semester 1 (Ganjil)</option>
+                            <option value="sem2">Semester 2 (Genap)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Pilih Bab / Topik Materi:</label>
+                        <select id="pilihBab" onchange="muatMateriAjar()" class="w-full p-2.5 border rounded-xl bg-slate-50 font-medium focus:outline-none focus:border-blue-500">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Diagnosis Gaya Belajar AI -->
+            <div id="sectionDiagnosis" class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 scroll-mt-24">
+                <h3 class="text-md font-bold text-slate-800 mb-2 flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles text-blue-600 mr-2"></i> Assesmen Diagnosis Gaya Belajar Berbasis AI
+                </h3>
+                <p class="text-sm text-slate-600 mb-4">Pilih kebiasaan belajar Anda untuk memungkinkan engine AI menyesuaikan materi Informatika secara presisi:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    <button onclick="setGayaBelajar('Visual')" class="p-3 border rounded-xl text-left hover:border-blue-500 hover:bg-blue-50/80 transition group bg-white focus:ring-2 focus:ring-blue-400">
+                        <i class="fa-solid fa-eye text-blue-500 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-sm">Visual</div>
+                        <div class="text-xs text-slate-500">Lebih mudah paham dengan flowchart, video pembelajaran interaktif, & diagram.</div>
+                    </button>
+                    <button onclick="setGayaBelajar('Auditori')" class="p-3 border rounded-xl text-left hover:border-blue-500 hover:bg-blue-50/80 transition group bg-white focus:ring-2 focus:ring-blue-400">
+                        <i class="fa-solid fa-headphones text-green-500 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-sm">Auditori</div>
+                        <div class="text-xs text-slate-500">Lebih cepat menyerap lewat penjelasan audio, podcast logika, & narasi mendalam.</div>
+                    </button>
+                    <button onclick="setGayaBelajar('Kinestetik')" class="p-3 border rounded-xl text-left hover:border-blue-500 hover:bg-blue-50/80 transition group bg-white focus:ring-2 focus:ring-blue-400">
+                        <i class="fa-solid fa-code text-purple-500 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-sm">Kinestetik</div>
+                        <div class="text-xs text-slate-500">Suka koding langsung (hands-on), skenario praktik panjang, & simulasi interaktif.</div>
+                    </button>
+                </div>
+
+                <div id="aiStatus" class="p-3 bg-blue-50/80 border border-blue-200 rounded-xl text-xs text-blue-800 flex items-center justify-between">
+                    <span><i class="fa-solid fa-robot mr-2"></i> Model AI Aktif: <strong>Mode Informatika Adaptif (Kelas IX)</strong></span>
+                    <span id="gayaBadge" class="bg-blue-600 text-white px-2 py-0.5 rounded text-[10px]">Visual</span>
+                </div>
+            </div>
+
+            <!-- Content Adaptive Box -->
+            <div id="sectionModul" class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 scroll-mt-24">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-md font-bold text-slate-800">
+                        <i class="fa-solid fa-book-open text-blue-600 mr-2"></i> Modul Pembelajaran Adaptif AI
+                    </h3>
+                    <span class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-medium">Kurikulum Merdeka 2026</span>
+                </div>
+
+                <div id="materiContainer" class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
+                </div>
+
+                <div class="mt-4 flex flex-wrap gap-2 justify-end text-xs">
+                    <button onclick="navigateTo('siswa', 'sectionKuis')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl transition font-medium shadow">
+                        <i class="fa-solid fa-pen-to-square mr-1"></i> Kerjakan Evaluasi 10 Soal
+                    </button>
+                    <button onclick="navigateTo('siswa', 'sectionTutor')" class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 transition font-medium">
+                        <i class="fa-solid fa-comments mr-1"></i> Konsultasi Materi ke Tutor AI
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modul Kuis Evaluasi (10 Soal) -->
+            <div id="sectionKuis" class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 scroll-mt-24">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-md font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Kuis Evaluasi Pemahaman Informatika (10 Soal)
+                    </h3>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-bold">Skor Maksimal: 100</span>
+                </div>
+
+                <div class="mb-5 p-4 bg-blue-50/70 border border-blue-200 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap Siswa <span class="text-red-500">*</span></label>
+                        <input type="text" id="siswaNamaKuis" placeholder="Masukkan nama Anda..." class="w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Kelas <span class="text-red-500">*</span></label>
+                        <select id="siswaKelasKuis" class="w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:border-blue-500">
+                            <option value="IX-A">Kelas IX-A</option>
+                            <option value="IX-B">Kelas IX-B</option>
+                            <option value="IX-C">Kelas IX-C</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="containerSoal10" class="space-y-6 text-xs">
+                </div>
+
+                <div class="mt-6 pt-4 border-t flex items-center justify-between">
+                    <button onclick="hitungNilaiKuis10()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-md flex items-center">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Submit Kuis & Kirim Nilai ke Guru
+                    </button>
+                </div>
+
+                <div id="hasilKuis" class="hidden mt-4 p-4 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-xl text-xs space-y-1"></div>
+            </div>
+
+            <!-- Simulation Interactive Tutor AI -->
+            <div id="sectionTutor" class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 scroll-mt-24">
+                <label class="block text-xs font-bold text-slate-700 mb-1">Tanya Tutor AI Informatika (Pengampu: Bu Irma Rachmawati, S.Kom.):</label>
+                <div class="flex gap-2">
+                    <input type="text" id="aiQuery" placeholder="Contoh: Apa perbedaan logika percabangan IF-ELSE dan perulangan FOR?" class="flex-1 text-xs px-3 py-2 border rounded-xl focus:outline-none focus:border-blue-500 bg-white">
+                    <button onclick="tanyaAI()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-xl transition font-medium flex items-center">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Kirim
+                    </button>
+                </div>
+                <div id="aiResponse" class="hidden mt-3 p-3 bg-slate-100 rounded-xl text-xs text-slate-700 border-l-4 border-blue-600">
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECTION DASHBOARD GURU ================= -->
+        <div id="sectionGuru" class="space-y-6 hidden scroll-mt-24">
+            
+            <!-- Analytic Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3 bg-blue-100 text-blue-600 rounded-xl">
+                        <i class="fa-solid fa-users text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500">Siswa Terdaftar</div>
+                        <div id="totalSiswaCard" class="text-xl font-bold text-slate-800">3 Siswa</div>
+                    </div>
+                </div>
+                <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl">
+                        <i class="fa-solid fa-chart-line text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500">Rata-rata Pemahaman Pemrograman</div>
+                        <div id="rataRataCard" class="text-xl font-bold text-emerald-600">83.7%</div>
+                    </div>
+                </div>
+                <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3 bg-purple-100 text-purple-600 rounded-xl">
+                        <i class="fa-solid fa-lightbulb text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500">Rekomendasi Intervensi Logic</div>
+                        <div id="intervensiCard" class="text-xl font-bold text-purple-600">1 Siswa</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Input Siswa Per Kelas -->
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center">
+                    <i class="fa-solid fa-user-plus text-blue-600 mr-2"></i> Input Data Siswa Baru Per Kelas
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Kelas</label>
+                        <select id="inputKelas" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                            <option value="IX-A">Kelas IX-A</option>
+                            <option value="IX-B">Kelas IX-B</option>
+                            <option value="IX-C">Kelas IX-C</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Siswa</label>
+                        <input type="text" id="inputNamaSiswa" placeholder="Contoh: Ahmad Rizky" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Gaya Belajar Awal</label>
+                        <select id="inputGayaBelajar" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                            <option value="Visual">Visual</option>
+                            <option value="Auditori">Auditori</option>
+                            <option value="Kinestetik">Kinestetik</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="tambahSiswaDinamis()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold p-2.5 rounded-xl transition flex items-center justify-center shadow">
+                            <i class="fa-solid fa-plus mr-1.5"></i> Simpan Siswa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Input & Update Penilaian Siswa -->
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center">
+                    <i class="fa-solid fa-pen-to-square text-emerald-600 mr-2"></i> Input Penilaian Manual Guru (Bu Irma Rachmawati, S.Kom.)
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Siswa</label>
+                        <select id="penilaianSiswa" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nilai Penguasaan (0 - 100)</label>
+                        <input type="number" id="penilaianNilai" min="0" max="100" placeholder="Contoh: 85" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan / Tindakan Guru</label>
+                        <input type="text" id="penilaianCatatan" placeholder="Contoh: Sangat baik menyusun Flowchart" class="w-full text-xs p-2.5 border rounded-xl bg-slate-50 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="simpanPenilaian()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold p-2.5 rounded-xl transition flex items-center justify-center shadow">
+                            <i class="fa-solid fa-floppy-disk mr-1.5"></i> Simpan Nilai
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytical Table & Filter Kelas -->
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
+                    <div>
+                        <h3 class="text-md font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-clipboard-user text-blue-600 mr-2"></i> Rekap Data & Penilaian Informatika Kelas IX
+                        </h3>
+                        <p class="text-xs text-slate-500">Pilih kelas untuk memfilter rekapitulasi data nilai siswa.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <select id="filterKelas" onchange="tampilkanTabelSiswa()" class="text-xs p-2 border rounded-xl bg-slate-50 font-semibold focus:outline-none focus:border-blue-500">
+                            <option value="Semua">Semua Kelas</option>
+                            <option value="IX-A">Kelas IX-A</option>
+                            <option value="IX-B">Kelas IX-B</option>
+                            <option value="IX-C">Kelas IX-C</option>
+                        </select>
+                        <button onclick="cetakLaporanViaBrowser()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3.5 py-2 rounded-xl transition font-semibold flex items-center shadow">
+                            <i class="fa-solid fa-print mr-1.5"></i> Cetak / Print
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Area Yang Dicetak / Diekspor Ke PDF -->
+                <div id="areaCetakPDF" class="p-4 bg-white rounded-xl">
+                    <div id="pdfHeader" class="mb-4 border-b pb-3">
+                        <h2 class="text-lg font-bold text-center text-slate-800">LAPORAN REKAPITULASI NILAI INFORMATIKA</h2>
+                        <p class="text-xs text-center text-slate-600">SMPN 1 Paciran • Guru Pengampu: Bu Irma Rachmawati, S.Kom.</p>
+                        <p class="text-xs text-center font-semibold mt-1 text-slate-700" id="pdfLabelKelas">Kelas: Semua Kelas</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left border-collapse border border-slate-200">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 border-b">
+                                    <th class="p-2.5 border border-slate-200 font-semibold">Nama Siswa</th>
+                                    <th class="p-2.5 border border-slate-200 font-semibold">Kelas</th>
+                                    <th class="p-2.5 border border-slate-200 font-semibold">Gaya Belajar</th>
+                                    <th class="p-2.5 border border-slate-200 font-semibold">Nilai Kuis / Penguasaan</th>
+                                    <th class="p-2.5 border border-slate-200 font-semibold">Rekomendasi / Catatan Guru</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelSiswaBody" class="divide-y divide-slate-100">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/90 backdrop-blur-md border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <p>Karya Inovasi Pembelajaran PGRI Kabupaten Lamongan 2026 | SMPN 1 Paciran</p>
+        <p class="mt-1 font-semibold text-slate-600">"Akselerasi Transformasi Pendidikan Indonesia di Era AI - Informatika IX (IRMA RACHMAWATI, S.Kom.)"</p>
+    </footer>
+
+    <!-- MODAL PEMUTAR VIDEO INTERAKTIF -->
+    <div id="videoModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-4 shadow-2xl relative border border-slate-200 animate-fadeIn">
+            <div class="flex justify-between items-center pb-3 mb-3 border-b border-slate-100">
+                <h3 id="videoModalTitle" class="font-bold text-slate-800 text-sm flex items-center">
+                    <i class="fa-solid fa-circle-play text-red-600 mr-2"></i> Pemutar Video Pembelajaran Interaktif
+                </h3>
+                <button onclick="closeVideoModal()" class="text-slate-400 hover:text-red-500 text-xl transition font-bold px-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner relative">
+                <!-- IFRAME DENGAN IZIN LENGKAP -->
+                <iframe id="videoPlayerFrame" class="w-full h-full" src="" title="Video Pembelajaran Informatika" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="mt-3 flex justify-between items-center text-xs text-slate-500">
+                <span><i class="fa-solid fa-circle-info mr-1 text-blue-500"></i> Modul Media Video Informatika Kelas IX - SMPN 1 Paciran</span>
+                <button onclick="closeVideoModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-1.5 rounded-lg font-medium transition">Tutup Video</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Script System -->
+    <script>
+        // Data Penampung Awal Siswa
+        let dataSiswaKelas = [
+            { nama: "Ahmad Risky", kelas: "IX-A", gaya: "Visual", penguasaan: "90%", tindakan: "Berikan pengayaan Flowchart Kompleks." },
+            { nama: "Biti Nur Aini", kelas: "IX-A", gaya: "Auditori", penguasaan: "80%", tindakan: "Fasilitasi penjelasan logika lisan / podcast." },
+            { nama: "Dedi Kurniawan", kelas: "IX-B", gaya: "Kinestetik", penguasaan: "70%", tindakan: "Pendampingan koding langsung (Block Scratch)." }
+        ];
+
+        let gayaAktifSiswa = "Visual";
+
+        // Kurikulum Informatika Kelas IX
+        const kurikulum = {
+            sem1: [
+                { id: "bk", nama: "Bab 1: Berpikir Komputasional (Algoritma & Pemrograman)" },
+                { id: "tik", nama: "Bab 2: Teknologi Informasi dan Komunikasi (Integrasi Aplikasi)" },
+                { id: "sif", nama: "Bab 3: Sistem Komputer & Jaringan Komputer/Internet" }
+            ],
+            sem2: [
+                { id: "ad", nama: "Bab 4: Analisis Data (Pengolahan & Visualisasi Data)" },
+                { id: "ap", nama: "Bab 5: Algoritma Pemrograman Praktis (Block Programming Scratch)" },
+                { id: "ds", nama: "Bab 6: Dampak Sosial Informatika & Etika Digital (AI)" }
+            ]
+        };
+
+        const modulAjarBank = {
+            bk: {
+                title: "Bab 1: Berpikir Komputasional & Algoritma",
+                Visual: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN VISUAL -->
+                        <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-blue-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-blue-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Visual):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa mampu mengidentifikasi 4 pilar Berpikir Komputasional melalui representasi grafis dan diagram secara tepat.</li>
+                                <li>Siswa mampu merancang dan mendesain bagan alir (Flowchart) percabangan logika dengan simbol standar yang benar.</li>
+                                <li>Siswa mampu menganalisis alur eksekusi algoritma dengan bantuan tayangan video visual interaktif.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 bg-blue-100/80 border-l-4 border-blue-600 text-blue-900 font-semibold rounded-xl flex items-center justify-between">
+                            <span>📌 Modul Visual: Flowchart, Diagram Struktur & Video Interaktif</span>
+                            <span class="text-xs bg-blue-600 text-white px-2 py-1 rounded-lg">Gaya Visual</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-700 leading-relaxed">Berpikir Komputasional adalah metode memecahkan masalah kompleks dengan bantuan 4 pilar utama yang diproyeksikan secara visual melalui bagan alir (flowchart) dan diagram logis:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 my-3">
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                <h5 class="font-bold text-blue-700 text-xs mb-1"><i class="fa-solid fa-sitemap mr-1"></i> 1. Dekomposisi</h5>
+                                <p class="text-xs text-slate-600">Memecah masalah besar menjadi sub-masalah kecil yang lebih gampang dikelola visualnya.</p>
+                            </div>
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                <h5 class="font-bold text-blue-700 text-xs mb-1"><i class="fa-solid fa-shapes mr-1"></i> 2. Pengenalan Pola</h5>
+                                <p class="text-xs text-slate-600">Mengidentifikasi kesamaan karakteristik pola visual yang pernah diselesaikan sebelumnya.</p>
+                            </div>
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                <h5 class="font-bold text-blue-700 text-xs mb-1"><i class="fa-solid fa-eye-slash mr-1"></i> 3. Abstraksi</h5>
+                                <p class="text-xs text-slate-600">Menghilangkan detail tak penting dan berfokus pada entitas diagram utama.</p>
+                            </div>
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                <h5 class="font-bold text-blue-700 text-xs mb-1"><i class="fa-solid fa-diagram-project mr-1"></i> 4. Algoritma</h5>
+                                <p class="text-xs text-slate-600">Menyusun bagan langkah logis (Flowchart) urut dari Start hingga End.</p>
+                            </div>
+                        </div>
+
+                        <!-- LANGKAH PEMBELAJARAN VISUAL -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                            <h5 class="font-bold text-blue-800 text-xs flex items-center">
+                                <i class="fa-solid fa-list-ol mr-2 text-blue-600"></i> Langkah-Langkah Pembelajaran Visual (Rinci & Urut)
+                            </h5>
+                            <div class="space-y-2 text-xs text-slate-700">
+                                <div class="p-2.5 bg-blue-50/60 rounded-lg border-l-2 border-blue-500">
+                                    <strong>Langkah 1 (Amati Diagram):</strong> Siswa mengamati peta konsep dan alur diagram flowchart percabangan nilai siswa di papan tulis / slide interaktif.
+                                </div>
+                                <div class="p-2.5 bg-blue-50/60 rounded-lg border-l-2 border-blue-500">
+                                    <strong>Langkah 2 (Analisis Visual Simbol):</strong> Siswa membedakan simbol Terminator (Awal/Akhir), Persegi (Proses), dan Belah Ketupat (Keputusan IF-ELSE).
+                                </div>
+                                <div class="p-2.5 bg-blue-50/60 rounded-lg border-l-2 border-blue-500">
+                                    <strong>Langkah 3 (Menyusun Flowchart):</strong> Siswa menggambar bagan alir dari permasalahan kehidupan sehari-hari (contoh: Alur Kelulusan Nilai Ujian).
+                                </div>
+                                <div class="p-2.5 bg-blue-50/60 rounded-lg border-l-2 border-blue-500">
+                                    <strong>Langkah 4 (Pemutaran Video & Evaluasi Visual):</strong> Menonton video pembelajaran animasi alur algoritma dan melakukan koreksi visual bersama kelompok.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODUL VISUAL VIDEO -->
+                        <div class="p-4 bg-slate-900 text-white rounded-2xl shadow-md border border-slate-800 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-video text-red-500 text-lg"></i>
+                                    <h5 class="font-bold text-xs text-white">Video Pembelajaran Visual: Berpikir Komputasional</h5>
+                                </div>
+                                <span class="text-[10px] bg-red-600/30 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full">Durasi: 05:20</span>
+                            </div>
+                            <p class="text-xs text-slate-300">Saksikan ilustrasi animasi diagram flowchart dan penyelesaian masalah algoritma secara visual berikut ini:</p>
+                            <div class="flex flex-wrap items-center gap-2 pt-1">
+                                <button onclick="openVideoModal('jCb9fpPrxLc', 'Video Pembelajaran: Berpikir Komputasional & Flowchart')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl transition flex items-center text-xs shadow-md">
+                                    <i class="fa-solid fa-circle-play mr-2 text-sm"></i> Putar Video Pembelajaran (Klik Di Sini)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                Auditori: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN AUDITORI -->
+                        <div class="p-3.5 bg-green-50 border border-green-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-green-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-green-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Auditori):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa mampu menjelaskan secara lisan konsep Berpikir Komputasional dan logika algoritma secara sistematis.</li>
+                                <li>Siswa mampu mendiskusikan skenario kondisi IF-ELSE melalui argumen verbal bersama kelompok.</li>
+                                <li>Siswa mampu menyimpulkan dan menyampaikan rangkuman narasi logika pemecahan masalah dengan bahasa sendiri.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 bg-green-100/80 border-l-4 border-green-600 text-green-900 font-semibold rounded-xl flex items-center justify-between">
+                            <span>🎙 Modul Auditori: Penjelasan Komprehensif & Skenario Diskusi Pendengaran</span>
+                            <span class="text-xs bg-green-600 text-white px-2 py-1 rounded-lg">Gaya Auditori</span>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-xs text-green-800 flex items-center">
+                                <i class="fa-solid fa-volume-high text-green-600 mr-2"></i> Penjelasan Materi Lengkap Berbasis Narasi Logika
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Selamat datang di sesi Auditori! Mari kita pahami Berpikir Komputasional lewat penjelasan lisan dan alur cerita. Bayangkan komputer sebagai seorang teman yang sangat cerdas tetapi sangat kaku; ia hanya akan mengikuti instruksi tepat sesuai kalimat yang kita dengarkan padanya.
+                            </p>
+                            <div class="p-3 bg-green-50/80 rounded-lg border border-green-200 text-xs text-slate-800 space-y-2">
+                                <p><strong>1. Dekomposisi Naratif:</strong> Ketika menghadapi masalah besar (seperti membuat sistem kasir kantin), pecah menjadi tahap menghitung belanjaan, menghitung diskon, dan mencetak struk.</p>
+                                <p><strong>2. Pengenalan Pola Suara & Struktur:</strong> Dengarkan kembali pola yang pernah ada. Jika cara menghitung diskon kantin sama dengan diskon toko baju, kita tinggal mengulang struktur logika yang sama.</p>
+                                <p><strong>3. Abstraksi Berdasarkan Fokus Diskusi:</strong> Dengarkan hanya variabel penting: Harga Barang, Jumlah, dan Total Bayar.</p>
+                                <p><strong>4. Penyampaian Algoritma Logis:</strong> Menyampaikan narasi urutan instruksi langkah demi langkah dari awal hingga akhir tanpa ada lompatan alur yang ambigu.</p>
+                            </div>
+                        </div>
+
+                        <!-- LANGKAH PEMBELAJARAN AUDITORI -->
+                        <div class="p-4 bg-emerald-900 text-white rounded-2xl shadow-md space-y-3 border border-emerald-800">
+                            <h5 class="font-bold text-xs text-emerald-300 flex items-center">
+                                <i class="fa-solid fa-list-check mr-2"></i> Langkah-Langkah Pembelajaran Auditori (Diskusi Lisan & Pembacaan Logika)
+                            </h5>
+                            <div class="text-xs text-emerald-100 space-y-2.5 border-l-2 border-emerald-500 pl-3">
+                                <div>
+                                    <p class="font-bold text-yellow-300">Langkah 1 (Mendengarkan Studi Kasus):</p>
+                                    <p>Guru menyampaikan instruksi lisan: <em>"Jika belanjaan lebih dari Rp 50.000, berikan potongan 10%. Jika tidak, harga normal."</em> Siswa menyimak struktur kalimat kondisi tersebut.</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-yellow-300">Langkah 2 (Pengulangan Verbal Berpasangan):</p>
+                                    <p>Setiap siswa membacakan dan menjelaskan ulang logika tersebut kepada teman sebangku menggunakan bahasa naratif sendiri tanpa melihat teks.</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-yellow-300">Langkah 3 (Tanya Jawab Interaktif):</p>
+                                    <p>Guru melempar pertanyaan lisan tentang konsekuensi jika variabel diubah, siswa menjawab dan berargumentasi secara langsung.</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-yellow-300">Langkah 4 (Rangkuman Suara / Voice Note):</p>
+                                    <p>Siswa merekam rangkuman logika algoritma dalam bentuk rekaman suara pendek (voice note) untuk dievaluasi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                Kinestetik: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN KINESTETIK -->
+                        <div class="p-3.5 bg-purple-50 border border-purple-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-purple-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-purple-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Kinestetik):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa mampu mengaplikasikan algoritma melalui peragaan fisik simulasi "Human Robot".</li>
+                                <li>Siswa mampu menyusun dan menguji urutan program menggunakan antarmuka koding blok hands-on.</li>
+                                <li>Siswa mampu melakukan perbaikan (debugging) secara langsung ketika ditemukan kesalahan logika dalam kode program.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 bg-purple-100/80 border-l-4 border-purple-600 text-purple-900 font-semibold rounded-xl flex items-center justify-between">
+                            <span>🧩 Modul Kinestetik: Simulasi Hands-On Praktik Langsung & Skenario Laboratorium</span>
+                            <span class="text-xs bg-purple-600 text-white px-2 py-1 rounded-lg">Gaya Kinestetik</span>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-xs text-purple-800 flex items-center">
+                                <i class="fa-solid fa-laptop-code text-purple-600 mr-2"></i> Penjelasan Praktik Hands-On Algoritma & Eksperimen
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Gaya belajar kinestetik berfokus pada pembelajaran aktif dengan menguji langsung variabel, menyusun kartu alur algoritma, serta mengeksekusi instruksi langsung di papan simulasi pemrograman block.
+                            </p>
+                            
+                            <div class="p-3 bg-purple-50 rounded-xl border border-purple-200 text-xs text-purple-950 space-y-2">
+                                <div class="font-bold">Urutan Persiapan Alat & Bahan Hands-On:</div>
+                                <ul class="list-disc pl-4 space-y-1">
+                                    <li>Set kartu fisik instruksi (Start, If, Else, Loop, Print, End).</li>
+                                    <li>Perangkat komputer / tablet dengan software Scratch / MakeCode.</li>
+                                    <li>Lembar kerja eksperimen langsung (Debugging worksheet).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- LANGKAH PEMBELAJARAN KINESTETIK -->
+                        <div class="p-4 bg-purple-900 text-white rounded-2xl shadow-md space-y-3 border border-purple-800">
+                            <h5 class="font-bold text-xs text-purple-300 flex items-center">
+                                <i class="fa-solid fa-gamepad mr-2"></i> Langkah-Langkah Pembelajaran Kinestetik (Simulasi Fisik & Coding Hands-on)
+                            </h5>
+                            <div class="text-xs text-purple-100 space-y-3">
+                                <div class="border-l-2 border-purple-400 pl-3 space-y-1">
+                                    <p class="font-bold text-yellow-300">Langkah 1: Simulasi Fisik "Human Robot" (15 Menit)</p>
+                                    <p>Satu siswa berperan sebagai "Programmer" dan siswa lainnya menjadi "Robot". Programmer memegang kartu perintah dan secara fisik menyusun urutan langkah gerak robot untuk melewati rintangan di lantai kelas.</p>
+                                </div>
+                                <div class="border-l-2 border-purple-400 pl-3 space-y-1">
+                                    <p class="font-bold text-yellow-300">Langkah 2: Drag-and-Drop Block Programming (20 Menit)</p>
+                                    <p>Siswa membuka laptop, secara mandiri melakukan drag-and-drop blok kode Scratch seperti [when flag clicked] -> [repeat 10] -> [move 10 steps] dan mengamati pergerakan objek secara langsung.</p>
+                                </div>
+                                <div class="border-l-2 border-purple-400 pl-3 space-y-1">
+                                    <p class="font-bold text-yellow-300">Langkah 3: Uji Coba Tracing & Troubleshooting (10 Menit)</p>
+                                    <p>Siswa secara sengaja merusak salah satu urutan blok koding (membuat bug), lalu mencoba memperbaiki (debugging) sampai karakter dalam program bergerak sesuai rencana.</p>
+                                </div>
+                                <div class="border-l-2 border-purple-400 pl-3 space-y-1">
+                                    <p class="font-bold text-yellow-300">Langkah 4: Unjuk Kerja & Demonstrasi (10 Menit)</p>
+                                    <p>Siswa menjalankan hasil karya programnya di depan kelas dan mendemonstrasikan bagaimana alur program bereaksi terhadap variasi input fisik.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            tik: {
+                title: "Bab 2: Teknologi Informasi dan Komunikasi (Integrasi Aplikasi)",
+                Visual: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN VISUAL TIK -->
+                        <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-blue-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-blue-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Visual):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa dapat memvisualisasikan alur pengiriman data antar aplikasi perkantoran (Word dan Excel) melalui diagram alir Mail Merge.</li>
+                                <li>Siswa mampu mengidentifikasi letak tombol fitur integrasi data berdasarkan tampilan antarmuka (GUI) Microsoft Office.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-blue-100/80 border-l-4 border-blue-600 text-blue-900 font-semibold rounded-xl">
+                            📌 Modul Visual: Integrasi Aplikasi Perkantoran (Mail Merge & Object Linking)
+                        </div>
+                        <p class="text-xs text-slate-700">Visualisasi integrasi antara Pemrosesan Kata (Word) dan Lembar Kerja (Excel) menggunakan diagram alur transfer data Mail Merge.</p>
+                        
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+                            <h5 class="font-bold text-blue-800">Langkah Pembelajaran Visual Integrasi TIK:</h5>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li>Mengamati infografis arsitektur keterhubungan data Word (Format) dan Excel (Database).</li>
+                                <li>Memperhatikan screenshot tiap langkah pada menu <em>Mailings -> Start Mail Merge</em>.</li>
+                                <li>Menonton pemutaran video panduan integrasi spreadsheet.</li>
+                            </ol>
+                        </div>
+
+                        <div class="p-4 bg-slate-900 text-white rounded-2xl space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h5 class="font-bold text-xs"><i class="fa-solid fa-video text-red-500 mr-2"></i> Video Tutorial Visual: Panduan Mail Merge & Integrasi Data</h5>
+                                <span class="text-[10px] bg-red-600/30 text-red-300 px-2 py-0.5 rounded-full">Durasi: 06:15</span>
+                            </div>
+                            <p class="text-xs text-slate-300">Tonton langkah visual pembuatan surat massal otomatis dengan mengklik tombol di bawah:</p>
+                            <button onclick="openVideoModal('g3I_B2qS4m4', 'Video Tutorial: Integrasi Aplikasi Mail Merge')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center shadow">
+                                <i class="fa-solid fa-circle-play mr-2"></i> Putar Video Tutorial Integrasi
+                            </button>
+                        </div>
+                    </div>
+                `,
+                Auditori: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN AUDITORI TIK -->
+                        <div class="p-3.5 bg-green-50 border border-green-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-green-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-green-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Auditori):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa dapat menguraikan konsep perbedaan antara Object Linking dan Object Embedding (OLE) secara verbal.</li>
+                                <li>Siswa dapat mendiskusikan manfaat efisiensi integrasi aplikasi perkantoran dalam dunia kerja secara terstruktur.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-green-100/80 border-l-4 border-green-600 text-green-900 font-semibold rounded-xl">
+                            🎙️ Modul Auditori: Penjelasan Konsep Integrasi & Skenario Narasi
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-2">
+                            <p><strong>Penjelasan Lisan Integrasi Aplikasi:</strong> Integrasi aplikasi memungkinkan data dari Excel berpindah otomatis ke Word. Bayangkan Excel sebagai 'Gudang Data' yang menyimpan nama-nama siswa, dan Word sebagai 'Cetakan Sertifikat'.</p>
+                        </div>
+                        <div class="p-4 bg-emerald-900 text-white rounded-2xl text-xs space-y-2">
+                            <h5 class="font-bold text-emerald-300">Langkah Pembelajaran Auditori TIK:</h5>
+                            <p><strong>1. Pendengaran Terarah:</strong> Memperhatikan penjelasan tutur guru mengenai fungsi Mail Merge.</p>
+                            <p><strong>2. Diskusi Pasangan:</strong> Menjelaskan secara lisan ke teman beda bangku mengenai perbedaan Paste Special vs Object Linking Embed (OLE).</p>
+                            <p><strong>3. Tanya Jawab Reflektif:</strong> Menjawab kuis lisan seputar alur pengiriman data dari Excel ke Word.</p>
+                        </div>
+                    </div>
+                `,
+                Kinestetik: `
+                    <div class="space-y-4">
+                        <!-- TUJUAN PEMBELAJARAN KINESTETIK TIK -->
+                        <div class="p-3.5 bg-purple-50 border border-purple-200 rounded-xl space-y-1">
+                            <h5 class="font-bold text-purple-900 text-xs flex items-center">
+                                <i class="fa-solid fa-bullseye text-purple-600 mr-2"></i> Tujuan Pembelajaran (Gaya Belajar Kinestetik):
+                            </h5>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-0.5">
+                                <li>Siswa mampu mengoperasikan secara mandiri fitur Mail Merge untuk menggabungkan data Excel ke dokumen Word.</li>
+                                <li>Siswa mampu mempraktikkan proses pembuatan dokumen dinamis secara otomatis dalam komputer laboratorium.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-purple-100/80 border-l-4 border-purple-600 text-purple-900 font-semibold rounded-xl">
+                            🧩 Modul Kinestetik: Praktik Langsung Integrasi Word & Excel
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs space-y-2">
+                            <p class="font-bold text-purple-900">Langkah Pembelajaran Praktik Hands-On TIK:</p>
+                            <ol class="list-decimal pl-4 space-y-1.5 text-slate-700">
+                                <li><strong>Langkah 1:</strong> Buka Microsoft Excel, buat tabel 5 data penerima surat (Nama, Alamat, Nilai).</li>
+                                <li><strong>Langkah 2:</strong> Buka Microsoft Word, ketik template surat ucapan selamat.</li>
+                                <li><strong>Langkah 3:</strong> Klik tab <em>Mailings -> Select Recipients -> Use an Existing List</em> dan pilih file Excel yang baru dibuat.</li>
+                                <li><strong>Langkah 4:</strong> Sisipkan field dengan <em>Insert Merge Field</em> lalu lakukan pengujian pergantian data dengan menekan tombol panah preview.</li>
+                            </ol>
+                        </div>
+                    </div>
+                `
+            },
+            default: {
+                title: "Materi Pembelajaran Informatika IX",
+                Visual: `
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg font-bold text-blue-900">Tujuan Pembelajaran: Menguasai konsep dasar materi melalui pengamatan media visual dan diagram.</div>
+                        <div class="p-3 bg-blue-100 text-blue-900 rounded-lg font-bold">Modul Visual Interaktif</div>
+                        <p>Modul ini dilengkapi dengan bagan, gambar infografis, langkah-langkah visual, dan pemutar video pembelajaran.</p>
+                        <button onclick="openVideoModal('jCb9fpPrxLc', 'Video Pembelajaran Umum')" class="bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg flex items-center shadow">
+                            <i class="fa-solid fa-play mr-2"></i> Putar Video Pembelajaran
+                        </button>
+                    </div>
+                `,
+                Auditori: `
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-green-50 border border-green-200 rounded-lg font-bold text-green-900">Tujuan Pembelajaran: Menguasai konsep materi melalui diskusi interaktif dan pemahaman narasi lisan.</div>
+                        <div class="p-3 bg-green-100 text-green-900 rounded-lg font-bold">Modul Auditori Berbasis Narasi</div>
+                        <p>Penjelasan lengkap konsep materi dalam bentuk dialog lisan, instruksi berurutan, dan narasi logis yang mudah diserap pendengaran.</p>
+                    </div>
+                `,
+                Kinestetik: `
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-purple-50 border border-purple-200 rounded-lg font-bold text-purple-900">Tujuan Pembelajaran: Menguasai konsep materi melalui simulasi fisik, eksperimen hands-on, dan praktik langsung.</div>
+                        <div class="p-3 bg-purple-100 text-purple-900 rounded-lg font-bold">Modul Kinestetik Praktik Hands-On</div>
+                        <p>Panduan langkah praktik fisik, simulasi komputer, latihan koding terstruktur, serta debugging bertahap.</p>
+                    </div>
+                `
+            }
+        };
+
+        const daftar10Soal = [
+            { q: "1. Apa empat pilar utama dalam Berpikir Komputasional?", options: ["A. Dekomposisi, Pengenalan Pola, Abstraksi, Algoritma", "B. Input, Process, Output, Storage", "C. Hardware, Software, Brainware, Network", "D. Visual, Auditori, Kinestetik, AI"], answer: 0 },
+            { q: "2. Simbol Flowchart bertipe Belah Ketupat (Diamond) digunakan untuk?", options: ["A. Start/End", "B. Proses", "C. Keputusan IF-ELSE", "D. Input"], answer: 2 },
+            { q: "3. Fitur untuk membuat surat massal otomatis di Word adalah?", options: ["A. Hyperlink", "B. Mail Merge", "C. Page Break", "D. Cross-reference"], answer: 1 },
+            { q: "4. Contoh algoritma percabangan (IF-ELSE)?", options: ["A. Cetak 1-100", "B. JIKA nilai >= 75 MAKA tuntas", "C. Hitung Luas", "D. Simpan File"], answer: 1 },
+            { q: "5. Memecah masalah besar menjadi sub-masalah dinamakan?", options: ["A. Abstraksi", "B. Dekomposisi", "C. Pattern", "D. Looping"], answer: 1 },
+            { q: "6. Mengulang instruksi sebanyak N kali dinamakan?", options: ["A. Loop / Repeat", "B. If-Then", "C. Variable", "D. Broadcast"], answer: 0 },
+            { q: "7. Jaringan komputer area terbatas seperti laboratorium sekolah?", options: ["A. WAN", "B. LAN", "C. MAN", "D. GAN"], answer: 1 },
+            { q: "8. Rumus Excel untuk rata-rata?", options: ["A. =SUM()", "B. =COUNT()", "C. =AVERAGE()", "D. =MAX()"], answer: 2 },
+            { q: "9. Menghilangkan bagian detail yang tidak penting dinamakan?", options: ["A. Abstraksi", "B. Dekomposisi", "C. Algoritma", "D. Sintaks"], answer: 0 },
+            { q: "10. Contoh bijak penggunaan AI?", options: ["A. Menyalin tugas", "B. Menjadi tutor pembantu", "C. Menyebar hoax", "D. Mengabaikan hak cipta"], answer: 1 }
+        ];
+
+        function updateOpsiMateri() {
+            const sem = document.getElementById('pilihSemester').value;
+            const selectBab = document.getElementById('pilihBab');
+            selectBab.innerHTML = "";
+
+            kurikulum[sem].forEach(bab => {
+                const opt = document.createElement('option');
+                opt.value = bab.id;
+                opt.textContent = bab.nama;
+                selectBab.appendChild(opt);
+            });
+
+            muatMateriAjar();
+        }
+
+        function muatMateriAjar() {
+            const babId = document.getElementById('pilihBab').value;
+            const container = document.getElementById('materiContainer');
+            
+            let dataBab = modulAjarBank[babId] || modulAjarBank.default;
+            let kontenGaya = dataBab[gayaAktifSiswa] || dataBab.Visual;
+
+            container.innerHTML = `
+                <h4 class="font-bold text-slate-800 text-sm border-b pb-2 flex items-center justify-between">
+                    <span><i class="fa-solid fa-graduation-cap text-blue-600 mr-1"></i> ${dataBab.title || 'Materi Informatika'}</span>
+                </h4>
+                <div class="text-xs text-slate-700 leading-relaxed">${kontenGaya}</div>
+            `;
+        }
+
+        function switchTab(type) {
+            const tabSiswa = document.getElementById('tabSiswa');
+            const tabGuru = document.getElementById('tabGuru');
+            const sectionSiswa = document.getElementById('sectionSiswa');
+            const sectionGuru = document.getElementById('sectionGuru');
+
+            if(type === 'siswa') {
+                tabSiswa.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-blue-700 shadow-sm";
+                tabGuru.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900";
+                sectionSiswa.classList.remove('hidden');
+                sectionGuru.classList.add('hidden');
+            } else {
+                tabGuru.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-blue-700 shadow-sm";
+                tabSiswa.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900";
+                sectionGuru.classList.remove('hidden');
+                sectionSiswa.classList.add('hidden');
+            }
+        }
+
+        function navigateTo(tabType, elementId) {
+            switchTab(tabType);
+            setTimeout(() => {
+                const el = document.getElementById(elementId);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function setGayaBelajar(gaya) {
+            gayaAktifSiswa = gaya;
+            document.getElementById('gayaBadge').innerText = gaya;
+            muatMateriAjar();
+            document.getElementById('sectionModul').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        /* FUNGSI PEMUTAR VIDEO MODAL */
+        function openVideoModal(videoId, title) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoPlayerFrame');
+            const titleEl = document.getElementById('videoModalTitle');
+
+            let embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1`;
+            if (window.location.protocol.startsWith('http')) {
+                embedUrl += `&origin=${encodeURIComponent(window.location.origin)}`;
+            }
+
+            if (iframe) iframe.src = embedUrl;
+            if (title && titleEl) titleEl.innerHTML = `<i class="fa-solid fa-circle-play text-red-600 mr-2"></i> ${title}`;
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoPlayerFrame');
+            if (iframe) iframe.src = "";
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function render10Soal() {
+            const box = document.getElementById('containerSoal10');
+            box.innerHTML = "";
+
+            daftar10Soal.forEach((soal, idx) => {
+                let optionsHtml = "";
+                soal.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <label class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border hover:bg-blue-50 cursor-pointer transition">
+                            <input type="radio" name="soal10_${idx}" value="${optIdx}">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                box.innerHTML += `
+                    <div class="p-3.5 bg-slate-100/80 rounded-xl border space-y-2">
+                        <p class="font-bold text-slate-800">${soal.q}</p>
+                        <div class="space-y-1.5">${optionsHtml}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function tanyaAI() {
+            const query = document.getElementById('aiQuery').value;
+            const resBox = document.getElementById('aiResponse');
+            if(!query.trim()) return;
+
+            resBox.classList.remove('hidden');
+            resBox.innerHTML = "<i class='fa-solid fa-spinner fa-spin text-blue-600 mr-2'></i> Memproses jawaban...";
+
+            setTimeout(() => {
+                resBox.innerHTML = `<strong><i class='fa-solid fa-robot text-blue-600 mr-1'></i> Tutor AI Informatika:</strong> Penjelasan mengenai "<em>${query}</em>".`;
+            }, 800);
+        }
+
+        function tambahSiswaDinamis() {
+            const kelas = document.getElementById('inputKelas').value;
+            const nama = document.getElementById('inputNamaSiswa').value.trim();
+            const gaya = document.getElementById('inputGayaBelajar').value;
+
+            if (!nama) {
+                alert("Silakan masukkan nama siswa!");
+                return;
+            }
+
+            dataSiswaKelas.push({
+                nama: nama,
+                kelas: kelas,
+                gaya: gaya,
+                penguasaan: "0%",
+                tindakan: "Pendampingan rutin."
+            });
+
+            document.getElementById('inputNamaSiswa').value = "";
+            tampilkanTabelSiswa();
+            updateDropdownSiswa();
+            hitungRataRata();
+            alert(`Siswa ${nama} berhasil ditambahkan ke ${kelas}!`);
+        }
+
+        function simpanPenilaian() {
+            const indexSiswa = document.getElementById('penilaianSiswa').value;
+            const nilai = document.getElementById('penilaianNilai').value;
+            const catatan = document.getElementById('penilaianCatatan').value.trim();
+
+            if (nilai === "" || nilai < 0 || nilai > 100) {
+                alert("Nilai harus antara 0 - 100!");
+                return;
+            }
+
+            dataSiswaKelas[indexSiswa].penguasaan = nilai + "%";
+            if (catatan) dataSiswaKelas[indexSiswa].tindakan = catatan;
+
+            tampilkanTabelSiswa();
+            hitungRataRata();
+            alert("Nilai berhasil disimpan!");
+        }
+
+        function hitungNilaiKuis10() {
+            const namaSiswa = document.getElementById('siswaNamaKuis').value.trim();
+            const kelasSiswa = document.getElementById('siswaKelasKuis').value;
+            const hasilBox = document.getElementById('hasilKuis');
+
+            if (!namaSiswa) {
+                alert("Isi nama lengkap terlebih dahulu!");
+                return;
+            }
+
+            let skor = 0;
+            daftar10Soal.forEach((soal, idx) => {
+                const checkedOpt = document.querySelector(`input[name="soal10_${idx}"]:checked`);
+                if (checkedOpt && parseInt(checkedOpt.value) === soal.answer) {
+                    skor += 10;
+                }
+            });
+
+            let indexEksis = dataSiswaKelas.findIndex(s => s.nama.toLowerCase() === namaSiswa.toLowerCase() && s.kelas === kelasSiswa);
+
+            if (indexEksis !== -1) {
+                dataSiswaKelas[indexEksis].penguasaan = skor + "%";
+            } else {
+                dataSiswaKelas.push({
+                    nama: namaSiswa,
+                    kelas: kelasSiswa,
+                    gaya: gayaAktifSiswa,
+                    penguasaan: skor + "%",
+                    tindakan: skor >= 80 ? "Sangat Baik" : "Perlu Bimbingan"
+                });
+            }
+
+            hasilBox.classList.remove('hidden');
+            hasilBox.innerHTML = `<strong>Kuis Berhasil Dikirim!</strong> Skor Anda: ${skor} / 100`;
+
+            tampilkanTabelSiswa();
+            updateDropdownSiswa();
+            hitungRataRata();
+        }
+
+        function tampilkanTabelSiswa() {
+            const tbody = document.getElementById("tabelSiswaBody");
+            const filterKelas = document.getElementById("filterKelas") ? document.getElementById("filterKelas").value : "Semua";
+            if (!tbody) return;
+
+            tbody.innerHTML = "";
+
+            let filteredData = dataSiswaKelas;
+            if (filterKelas !== "Semua") {
+                filteredData = dataSiswaKelas.filter(s => s.kelas === filterKelas);
+            }
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada data untuk ${filterKelas}.</td></tr>`;
+                return;
+            }
+
+            filteredData.forEach((siswa) => {
+                let badgeColor = "bg-blue-100 text-blue-700";
+                if (siswa.gaya === "Auditori") badgeColor = "bg-green-100 text-green-700";
+                if (siswa.gaya === "Kinestetik") badgeColor = "bg-purple-100 text-purple-700";
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="p-2.5 border border-slate-200 font-medium text-slate-800">${siswa.nama}</td>
+                    <td class="p-2.5 border border-slate-200 font-semibold text-slate-600">${siswa.kelas}</td>
+                    <td class="p-2.5 border border-slate-200"><span class="${badgeColor} px-2 py-0.5 rounded-full text-[11px] font-medium">${siswa.gaya}</span></td>
+                    <td class="p-2.5 border border-slate-200 font-semibold text-emerald-600">${siswa.penguasaan}</td>
+                    <td class="p-2.5 border border-slate-200 text-slate-500">${siswa.tindakan}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cetakLaporanViaBrowser() {
+            switchTab('guru');
+
+            const kelasTarget = document.getElementById('filterKelas') ? document.getElementById('filterKelas').value : "Semua";
+            document.getElementById('pdfLabelKelas').textContent = `Kelas: ${kelasTarget}`;
+
+            tampilkanTabelSiswa();
+
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
+        function updateDropdownSiswa() {
+            const select = document.getElementById('penilaianSiswa');
+            if (!select) return;
+
+            select.innerHTML = "";
+            dataSiswaKelas.forEach((siswa, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${siswa.nama} (${siswa.kelas})`;
+                select.appendChild(option);
+            });
+        }
+
+        function hitungRataRata() {
+            document.getElementById('totalSiswaCard').textContent = `${dataSiswaKelas.length} Siswa`;
+            if (dataSiswaKelas.length === 0) return;
+
+            let total = 0;
+            let perluIntervensi = 0;
+
+            dataSiswaKelas.forEach(s => {
+                let nilaiNum = parseInt(s.penguasaan) || 0;
+                total += nilaiNum;
+                if(nilaiNum < 75) perluIntervensi++;
+            });
+
+            const rataRata = (total / dataSiswaKelas.length).toFixed(1);
+            document.getElementById('rataRataCard').textContent = rataRata + "%";
+            document.getElementById('intervensiCard').textContent = `${perluIntervensi} Siswa`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateOpsiMateri();
+            render10Soal();
+            tampilkanTabelSiswa();
+            updateDropdownSiswa();
+            hitungRataRata();
+        });
+    </script>
+</body>
+</html>
